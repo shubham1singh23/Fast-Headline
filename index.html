@@ -152,7 +152,30 @@
         const iframeContainer = newsItem.querySelector('.iframe-container');
         const iframe = iframeContainer.querySelector('iframe');
         const iframeMessage = newsItem.querySelector('.iframe-message');
+newsItem.addEventListener('click', async (event) => {
+          if (!event.target.classList.contains('read-more')) {
+            if (activeIframe && activeIframe !== iframeContainer) {
+              activeIframe.style.display = 'none';
+            }
+            if (activeMessage && activeMessage !== iframeMessage) {
+              activeMessage.style.display = 'none';
+            }
 
+            try {
+              iframe.src = story.url;
+              iframeContainer.style.display = 'block';
+              iframeMessage.style.display = 'block';
+              activeIframe = iframeContainer;
+              activeMessage = iframeMessage;
+            } catch (error) {
+              window.open(story.url, '_blank');
+            }
+          }
+        });
+
+        newsList.appendChild(newsItem);
+      }
+    }
         
 
     document.getElementById('refresh').addEventListener('click', fetchNews);
